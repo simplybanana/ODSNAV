@@ -12,18 +12,13 @@ timeInterval = 0.5
 innerLoop = False
 counter = 0
 
-winEditSalesOrder = gw.getWindowsWithTitle('Edit - Sales')[0]
-winEditSalesOrder.activate()
-
 
 def waitForWindow(windowName):
     toc = 0
-    i = 0
-    while i == 0 and toc < 10:
+    while toc < 10:
         try:
             win = gw.getWindowsWithTitle(windowName)[0]
             print('Opened after: '+str(toc)+'s')
-            i += 1
             return True
         except:
             print('Not open, waiting for '+windowName+'...')
@@ -70,13 +65,6 @@ def homeTab():
     pyautogui.press('alt')
     sleep(timeInterval)
     pyautogui.press('h')
-    sleep(timeInterval)
-
-
-def navigateTab():
-    pyautogui.press('alt')
-    sleep(timeInterval)
-    pyautogui.press('n')
     sleep(timeInterval)
 
 
@@ -136,7 +124,10 @@ def registerButton():
 
 
 if __name__ == "__main__":
-    while True:
+    winEditSalesOrder = gw.getWindowsWithTitle('Edit - Sales')[0]
+    winEditSalesOrder.activate()
+    nextbuttoncheck = False
+    while not nextbuttoncheck:
         sleep(0.3)
         releaseButton()
         createWareShipButton()
@@ -150,7 +141,7 @@ if __name__ == "__main__":
         if not innerLoop:
             counter += 1
             if counter > 10:
-                exit()
+                break
             wareShipLineButton()
             waitForWindow('Whse. Shipment')
             showWareDocButton()
@@ -160,9 +151,8 @@ if __name__ == "__main__":
                 sleep(0.5)
                 pyautogui.press('esc')
             sleep(1)
-            if nextButtonCheck:
-                exit()
-            else:
+            nextbuttoncheck = nextButtonCheck()
+            if not nextbuttoncheck:
                 nextButton()
         else:
             counter = 0
@@ -194,13 +184,12 @@ if __name__ == "__main__":
                     sleep(sleepTime)
                     pyautogui.press('esc')
                 elif a != 'd' and a != 'a':
-                    exit()
+                    break
             sleep(1)
             pyautogui.press('esc')
             sleep(0.5)
             pyautogui.press('esc')
             sleep(1)
-            if nextButtonCheck:
-                exit()
-            else:
+            nextbuttoncheck = nextButtonCheck()
+            if not nextbuttoncheck:
                 nextButton()
